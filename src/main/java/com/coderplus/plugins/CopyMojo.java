@@ -35,9 +35,8 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-import org.sonatype.plexus.build.incremental.BuildContext;
 import org.codehaus.plexus.util.FileUtils;
-
+import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
  * Copy files during build
@@ -88,16 +87,16 @@ extends AbstractMojo
 	@Parameter( property = "copy.ignoreFileNotFoundOnIncremental", defaultValue = "true" )
 	boolean ignoreFileNotFoundOnIncremental;
 
-
 	/**
 	 * @since 1.0
 	 */
-	@Component
+	@Parameter( defaultValue = "${project}", readonly = true )
 	private MavenProject project;
 
 	@Component
 	private BuildContext buildContext;
 
+	@Override
 	public void execute() throws MojoExecutionException
 	{
 		getLog().debug("Executing the copy-rename-maven-plugin");

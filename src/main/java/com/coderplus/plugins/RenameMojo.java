@@ -1,5 +1,9 @@
 package com.coderplus.plugins;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 /*
  * The MIT License
  *
@@ -33,10 +37,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 import org.sonatype.plexus.build.incremental.BuildContext;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 
 /**
@@ -88,16 +88,16 @@ extends AbstractMojo
 	@Parameter( property = "copy.ignoreFileNotFoundOnIncremental", defaultValue = "true" )
 	boolean ignoreFileNotFoundOnIncremental;
 
-
 	/**
 	 * @since 1.0
 	 */
-	@Component
+	@Parameter( defaultValue = "${project}", readonly = true )
 	private MavenProject project;
 
 	@Component
 	private BuildContext buildContext;
 
+	@Override
 	public void execute() throws MojoExecutionException
 	{
 		getLog().debug("Executing the copy-rename-maven-plugin");
