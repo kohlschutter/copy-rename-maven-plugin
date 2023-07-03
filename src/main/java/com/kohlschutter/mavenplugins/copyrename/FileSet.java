@@ -1,4 +1,11 @@
-package com.coderplus.plugins;
+/*
+ * Copyright (c) 2014 Aneesh Joseph
+ * Copyright 2023 Christian Kohlschütter
+ *
+ * SPDX-Identifier: MIT
+ */
+package com.kohlschutter.mavenplugins.copyrename;
+
 /*
  * The MIT License
  *
@@ -26,19 +33,22 @@ import java.io.File;
 
 public class FileSet {
 
-	private File sourceFile;
-	private File destinationFile;
+  private File sourceFile;
+  private File destinationFile;
 
-	public File getSourceFile() {
-		return sourceFile;
-	}
-	public void setSourceFile(File sourceFile) {
-		this.sourceFile = sourceFile;
-	}
-	public File getDestinationFile() {
-		return destinationFile;
-	}
-	public void setDestinationFile(File destinationFile) {
-		this.destinationFile = destinationFile;
-	}
+  public File getSourceFile() {
+    return sourceFile;
+  }
+
+  public void setSourceFile(File sourceFile) {
+    this.sourceFile = sourceFile;
+  }
+
+  public File getDestinationFile() {
+    return destinationFile;
+  }
+
+  public void setDestinationFile(File destinationFile) {
+    this.destinationFile = destinationFile;
+  }
 }
