@@ -1,4 +1,6 @@
 /*
+ * copy-rename-maven-plugin
+ *
  * Copyright (c) 2014 Aneesh Joseph
  * Copyright 2023 Christian Kohlschütter
  *
