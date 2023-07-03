@@ -10,3 +10,5 @@ release.properties
 /.factorypath
 *~
 .DS_Store
+/target-eclipse/
+/coding-style
