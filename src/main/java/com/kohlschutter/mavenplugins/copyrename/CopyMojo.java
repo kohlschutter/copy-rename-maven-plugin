@@ -44,7 +44,7 @@ import org.codehaus.plexus.util.FileUtils;
 import org.sonatype.plexus.build.incremental.BuildContext;
 
 /**
- * Copy files during build
+ * Copy files during build.
  *
  * @author <a href="aneesh@coderplus.com">Aneesh Joseph</a>
  * @since 1.0
@@ -52,7 +52,7 @@ import org.sonatype.plexus.build.incremental.BuildContext;
 @Mojo(name = "copy", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class CopyMojo extends AbstractMojo {
   /**
-   * The file which has to be copied
+   * The file which has to be copied.
    *
    * @since 1.0
    */
@@ -60,7 +60,7 @@ public class CopyMojo extends AbstractMojo {
   private File sourceFile;
   /**
    * The target file to which the file should be copied(this shouldn't be a directory but a file
-   * which does or does not exist)
+   * which does or does not exist).
    *
    * @since 1.0
    */
@@ -77,7 +77,7 @@ public class CopyMojo extends AbstractMojo {
   private List<FileSet> fileSets;
 
   /**
-   * Overwrite files
+   * Overwrite files.
    *
    * @since 1.0
    */
@@ -85,7 +85,7 @@ public class CopyMojo extends AbstractMojo {
   boolean overWrite;
 
   /**
-   * Ignore File Not Found errors during incremental build
+   * Ignore File Not Found errors during incremental build.
    *
    * @since 1.0
    */
@@ -93,6 +93,8 @@ public class CopyMojo extends AbstractMojo {
   boolean ignoreFileNotFoundOnIncremental;
 
   /**
+   * Reference to the maven project.
+   *
    * @since 1.0
    */
   @Parameter(defaultValue = "${project}", readonly = true)
@@ -101,54 +103,70 @@ public class CopyMojo extends AbstractMojo {
   @Component
   private BuildContext buildContext;
 
-  @Override
-  public void execute() throws MojoExecutionException {
-    getLog().debug("Executing the copy-rename-maven-plugin");
-    if (fileSets != null && fileSets.size() > 0) {
-      for (FileSet fileSet : fileSets) {
-        File srcFile = fileSet.getSourceFile();
-        File destFile = fileSet.getDestinationFile();
-        if (srcFile != null) {
-          copy(srcFile, destFile);
-        }
-      }
-    } else if (sourceFile != null) {
-      copy(sourceFile, destinationFile);
-    } else {
-      getLog().info("No Files to process");
-    }
+  /**
+   * Creates a new instance of the "copy" mojo.
+   */
+  public CopyMojo() {
+    super();
   }
 
-  private void copy(File srcFile, File destFile) throws MojoExecutionException {
+  @Override
+  public void execute() throws MojoExecutionException {
+    new CopyMojoExecutionContext(this).execute();
+  }
 
-    if (!srcFile.exists()) {
-      if (ignoreFileNotFoundOnIncremental && buildContext.isIncremental()) {
-        getLog().warn("sourceFile " + srcFile.getAbsolutePath()
-            + " not found during incremental build");
-      } else {
-        getLog().error("sourceFile " + srcFile.getAbsolutePath() + " does not exist");
-      }
-    } else if (srcFile.isDirectory()) {
-      getLog().error("sourceFile " + srcFile.getAbsolutePath() + " is not a file");
-    } else if (destFile == null) {
-      getLog().error("destinationFile not specified");
-    } else if (destFile.exists() && destFile.isFile() && !overWrite) {
-      getLog().error(destFile.getAbsolutePath() + " already exists and overWrite not set");
-    } else {
-      try {
-        if (buildContext.isIncremental() && destFile.exists() && !buildContext.hasDelta(srcFile)
-            && FileUtils.contentEquals(srcFile, destFile)) {
-          getLog().info("No changes detected in " + srcFile.getAbsolutePath());
-          return;
+  private final class CopyMojoExecutionContext extends MojoExecutionContext {
+    protected CopyMojoExecutionContext(CopyMojo mojo) {
+      super(mojo);
+    }
+
+    @Override
+    public void execute() throws MojoExecutionException {
+      logDebug("Executing the copy-rename-maven-plugin");
+      if (fileSets != null && !fileSets.isEmpty()) {
+        for (FileSet fileSet : fileSets) {
+          File srcFile = fileSet.getSourceFile();
+          File destFile = fileSet.getDestinationFile();
+          if (srcFile != null) {
+            copy(srcFile, destFile);
+          }
         }
-        FileUtils.copyFile(srcFile, destFile);
-        getLog().info("Copied " + srcFile.getAbsolutePath() + " to " + destFile.getAbsolutePath());
-        buildContext.refresh(destFile);
-      } catch (IOException e) {
-        throw new MojoExecutionException("could not copy " + srcFile.getAbsolutePath() + " to "
-            + destFile.getAbsolutePath());
+      } else if (sourceFile != null) {
+        copy(sourceFile, destinationFile);
+      } else {
+        logInfo("No Files to process");
       }
     }
 
+    @SuppressWarnings("PMD.CognitiveComplexity")
+    private void copy(File srcFile, File destFile) throws MojoExecutionException {
+      if (!srcFile.exists()) {
+        if (ignoreFileNotFoundOnIncremental && buildContext.isIncremental()) {
+          logWarn("sourceFile ", srcFile.getAbsolutePath(), " not found during incremental build");
+        } else {
+          logError("sourceFile ", srcFile.getAbsolutePath(), " does not exist");
+        }
+      } else if (srcFile.isDirectory()) {
+        logError("sourceFile ", srcFile.getAbsolutePath(), " is not a file");
+      } else if (destFile == null) {
+        logError("destinationFile not specified");
+      } else if (destFile.exists() && destFile.isFile() && !overWrite) {
+        logError(destFile.getAbsolutePath(), " already exists and overWrite not set");
+      } else {
+        try {
+          if (buildContext.isIncremental() && destFile.exists() && !buildContext.hasDelta(srcFile)
+              && FileUtils.contentEquals(srcFile, destFile)) {
+            logInfo("No changes detected in ", srcFile.getAbsolutePath());
+            return;
+          }
+          FileUtils.copyFile(srcFile, destFile);
+          logInfo("Copied ", srcFile.getAbsolutePath(), " to " + destFile.getAbsolutePath());
+          buildContext.refresh(destFile);
+        } catch (IOException e) {
+          throw new MojoExecutionException("could not copy " + srcFile.getAbsolutePath() + " to "
+              + destFile.getAbsolutePath(), e);
+        }
+      }
+    }
   }
 }

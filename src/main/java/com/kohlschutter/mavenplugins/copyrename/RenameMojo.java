@@ -52,14 +52,14 @@ import org.sonatype.plexus.build.incremental.BuildContext;
 @Mojo(name = "rename", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class RenameMojo extends AbstractMojo {
   /**
-   * The file/directory which has to be renamed
+   * The file/directory which has to be renamed.
    *
    * @since 1.0
    */
   @Parameter(required = false)
   private File sourceFile;
   /**
-   * The target file/directory name
+   * The target file/directory name.
    *
    * @since 1.0
    */
@@ -76,7 +76,7 @@ public class RenameMojo extends AbstractMojo {
   private List<FileSet> fileSets;
 
   /**
-   * Ignore File Not Found errors during incremental build
+   * Ignore File Not Found errors during incremental build.
    *
    * @since 1.0
    */
@@ -84,7 +84,7 @@ public class RenameMojo extends AbstractMojo {
   boolean overWrite;
 
   /**
-   * Ignore errors if the source file/directory was not found during incremental build
+   * Ignore errors if the source file/directory was not found during incremental build.
    *
    * @since 1.0
    */
@@ -92,6 +92,8 @@ public class RenameMojo extends AbstractMojo {
   boolean ignoreFileNotFoundOnIncremental;
 
   /**
+   * Reference to the Maven project.
+   *
    * @since 1.0
    */
   @Parameter(defaultValue = "${project}", readonly = true)
@@ -100,47 +102,62 @@ public class RenameMojo extends AbstractMojo {
   @Component
   private BuildContext buildContext;
 
-  @Override
-  public void execute() throws MojoExecutionException {
-    getLog().debug("Executing the copy-rename-maven-plugin");
-    if (fileSets != null && fileSets.size() > 0) {
-      for (FileSet fileSet : fileSets) {
-        File srcFile = fileSet.getSourceFile();
-        File destFile = fileSet.getDestinationFile();
-        if (srcFile != null) {
-          copy(srcFile, destFile);
-        }
-      }
-    } else if (sourceFile != null) {
-      copy(sourceFile, destinationFile);
-    } else {
-      getLog().info("No Files to process");
-    }
+  /**
+   * Creates a new instance of the "rename" mojo.
+   */
+  public RenameMojo() {
+    super();
   }
 
-  private void copy(File srcFile, File destFile) throws MojoExecutionException {
+  @Override
+  public void execute() throws MojoExecutionException {
+    new RenameMojoExecutionContext(this).execute();
+  }
 
-    if (!srcFile.exists()) {
-      if (ignoreFileNotFoundOnIncremental && buildContext.isIncremental()) {
-        getLog().warn("sourceFile " + srcFile.getAbsolutePath()
-            + " not found during incremental build");
+  private final class RenameMojoExecutionContext extends MojoExecutionContext {
+    protected RenameMojoExecutionContext(RenameMojo mojo) {
+      super(mojo);
+    }
+
+    @Override
+    public void execute() throws MojoExecutionException {
+      logDebug("Executing the copy-rename-maven-plugin");
+      if (fileSets != null && !fileSets.isEmpty()) {
+        for (FileSet fileSet : fileSets) {
+          File srcFile = fileSet.getSourceFile();
+          File destFile = fileSet.getDestinationFile();
+          if (srcFile != null) {
+            copy(srcFile, destFile);
+          }
+        }
+      } else if (sourceFile != null) {
+        copy(sourceFile, destinationFile);
       } else {
-        getLog().error("sourceFile " + srcFile.getAbsolutePath() + " does not exist");
-      }
-    } else if (destFile == null) {
-      getLog().error("destinationFile not specified");
-    } else if (destFile.exists() && (destFile.isFile() == srcFile.isFile()) && !overWrite) {
-      getLog().error(destFile.getAbsolutePath() + " already exists and overWrite not set");
-    } else {
-      try {
-        FileUtils.rename(srcFile, destFile);
-        getLog().info("Renamed " + srcFile.getAbsolutePath() + " to " + destFile.getAbsolutePath());
-        buildContext.refresh(destFile);
-      } catch (IOException e) {
-        throw new MojoExecutionException("could not rename " + srcFile.getAbsolutePath() + " to "
-            + destFile.getAbsolutePath(), e);
+        logInfo("No Files to process");
       }
     }
 
+    private void copy(File srcFile, File destFile) throws MojoExecutionException {
+      if (!srcFile.exists()) {
+        if (ignoreFileNotFoundOnIncremental && buildContext.isIncremental()) {
+          logWarn("sourceFile ", srcFile.getAbsolutePath(), " not found during incremental build");
+        } else {
+          logError("sourceFile ", srcFile.getAbsolutePath(), " does not exist");
+        }
+      } else if (destFile == null) {
+        logError("destinationFile not specified");
+      } else if (destFile.exists() && (destFile.isFile() == srcFile.isFile()) && !overWrite) {
+        logError(destFile.getAbsolutePath(), " already exists and overWrite not set");
+      } else {
+        try {
+          FileUtils.rename(srcFile, destFile);
+          logInfo("Renamed ", srcFile.getAbsolutePath(), " to ", destFile.getAbsolutePath());
+          buildContext.refresh(destFile);
+        } catch (IOException e) {
+          throw new MojoExecutionException("could not rename " + srcFile.getAbsolutePath() + " to "
+              + destFile.getAbsolutePath(), e);
+        }
+      }
+    }
   }
 }
