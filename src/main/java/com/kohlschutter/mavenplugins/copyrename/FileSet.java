@@ -14,7 +14,6 @@ import java.io.File;
  * Specifies source and destination file.
  */
 public class FileSet {
-
   private File sourceFile;
   private File destinationFile;
 

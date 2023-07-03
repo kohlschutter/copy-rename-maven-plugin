@@ -12,6 +12,11 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
+/**
+ * Helper class to simplify logging and encapsulating the execution context.
+ * 
+ * @author Christian Kohlschütter
+ */
 abstract class MojoExecutionContext {
   private final Log log; // NOPMD.ProperLogger
 

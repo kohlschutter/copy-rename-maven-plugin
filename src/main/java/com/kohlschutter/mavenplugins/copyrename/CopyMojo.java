@@ -37,6 +37,7 @@ public class CopyMojo extends AbstractMojo {
    */
   @Parameter(required = false)
   private File sourceFile;
+
   /**
    * The target file to which the file should be copied(this shouldn't be a directory but a file
    * which does or does not exist).
