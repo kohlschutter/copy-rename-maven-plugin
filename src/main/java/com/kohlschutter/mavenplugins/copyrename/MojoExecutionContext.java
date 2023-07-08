@@ -16,7 +16,7 @@ import org.apache.maven.plugin.logging.Log;
 
 /**
  * Helper class to simplify logging and encapsulating the execution context.
- * 
+ *
  * @author Christian Kohlschütter
  */
 abstract class MojoExecutionContext {
