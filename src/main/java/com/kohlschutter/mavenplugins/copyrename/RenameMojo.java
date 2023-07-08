@@ -86,12 +86,20 @@ public class RenameMojo extends AbstractMojo {
   private List<FileSet> fileSets;
 
   /**
-   * Ignore File Not Found errors during incremental build.
+   * Overwrite existing files.
    *
    * @since 1.0
    */
   @Parameter(property = "copy.overWrite", defaultValue = "true")
   boolean overWrite;
+
+  /**
+   * Don't throw an error when overWrite is false and target file already exists.
+   *
+   * @since 2.0.0
+   */
+  @Parameter(property = "copy.ignoreExisting", defaultValue = "false")
+  boolean ignoreExisting;
 
   /**
    * Ignore errors if the source file/directory was not found during incremental build.
@@ -162,7 +170,11 @@ public class RenameMojo extends AbstractMojo {
       } else if (destFile == null) {
         logError("destinationFile not specified");
       } else if (destFile.exists() && (destFile.isFile() == srcFile.isFile()) && !overWrite) {
-        logError(destFile.getAbsolutePath(), " already exists and overWrite not set");
+        if (ignoreExisting) {
+          logInfo("Skipping ", destFile.getAbsolutePath(), " (already exists)");
+        } else {
+          logError(destFile.getAbsolutePath(), " already exists and overWrite not set");
+        }
       } else {
         try {
           FileUtils.rename(srcFile, destFile);

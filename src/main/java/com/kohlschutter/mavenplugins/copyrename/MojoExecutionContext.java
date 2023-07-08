@@ -8,6 +8,8 @@
  */
 package com.kohlschutter.mavenplugins.copyrename;
 
+import java.util.function.Supplier;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
@@ -55,10 +57,17 @@ abstract class MojoExecutionContext {
       case 0:
         return "";
       case 1:
-        return String.valueOf(parts[0]);
+        Object p1 = parts[0];
+        if (p1 instanceof Supplier<?>) {
+          p1 = ((Supplier<?>) p1).get();
+        }
+        return String.valueOf(p1);
       default:
         StringBuilder sb = new StringBuilder();
         for (Object p : parts) {
+          if (p instanceof Supplier<?>) {
+            p = ((Supplier<?>) p).get();
+          }
           sb.append(p);
         }
         return sb.toString();
