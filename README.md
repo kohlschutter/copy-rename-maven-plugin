@@ -3,9 +3,6 @@ copy-rename-maven-plugin
 
 The copy-rename-maven-plugin helps in copying files or renaming files or directories during the Maven build lifecycle.
 
-[![Build Status](https://buildhive.cloudbees.com/job/coderplus/job/copy-rename-maven-plugin/badge/icon)](https://buildhive.cloudbees.com/job/coderplus/job/copy-rename-maven-plugin/)
-
-
 ### How do I use it? ###
 
 Head over to the [Project Website](http://coderplus.github.io/copy-rename-maven-plugin/) for usage instructions
