@@ -17,7 +17,7 @@
     <packaging>maven-plugin</packaging>
 
     <name>Copy Rename Maven Plugin</name>
-    <url>http://coderplus.github.io/copy-rename-maven-plugin</url>
+    <url>http://kohlschutter.github.io/copy-rename-maven-plugin</url>
     <description>This plugin helps in copying files or renaming files or
         directories during the Maven build lifecycle.</description>
     <inceptionYear>2014</inceptionYear>
@@ -33,7 +33,6 @@
     <developers>
         <developer>
             <name>Aneesh Joseph</name>
-            <email>admin@coderplus.com</email>
             <roles>
                 <role>Developer</role>
             </roles>
@@ -52,14 +51,24 @@
 
     <scm>
         <connection>
-            scm:git:git@github.com:coderplus/copy-rename-maven-plugin.git</connection>
-        <url>scm:git:git@github.com:coderplus/copy-rename-maven-plugin.git</url>
+            scm:git:git@github.com:kohlschutter/copy-rename-maven-plugin.git</connection>
+        <url>scm:git:git@github.com:kohlschutter/copy-rename-maven-plugin.git</url>
         <developerConnection>
-            scm:git:git@github.com:coderplus/copy-rename-maven-plugin.git</developerConnection>
+            scm:git:git@github.com:kohlschutter/copy-rename-maven-plugin.git</developerConnection>
     </scm>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <site>
+            <id>github.com/kohlschutter/copy-rename-maven-plugin</id>
+            <url>gitsite:git@github.com/kohlschutter/copy-rename-maven-plugin.git</url>
+        </site>
+    </distributionManagement>
     <issueManagement>
-        <url>https://github.com/coderplus/m2e-maven-dependency-plugin/issues</url>
+        <url>https://github.com/kohlschutter/copy-rename-maven-plugin/issues</url>
     </issueManagement>
 
     <dependencies>
