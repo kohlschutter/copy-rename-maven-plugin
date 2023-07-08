@@ -45,6 +45,8 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.FileUtils;
 import org.sonatype.plexus.build.incremental.BuildContext;
 
+// CPD-OFF
+
 /**
  * Rename files or directories during build.
  *

@@ -66,7 +66,7 @@ abstract class MojoExecutionContext {
         StringBuilder sb = new StringBuilder();
         for (Object p : parts) {
           if (p instanceof Supplier<?>) {
-            p = ((Supplier<?>) p).get();
+            p = ((Supplier<?>) p).get(); // NOPMD.AvoidReassigningLoopVariables
           }
           sb.append(p);
         }
