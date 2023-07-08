@@ -54,6 +54,14 @@ import org.sonatype.plexus.build.incremental.BuildContext;
 @Mojo(name = "rename", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class RenameMojo extends AbstractMojo {
   /**
+   * Skip execution.
+   *
+   * @since 2.0.0
+   */
+  @Parameter(property = "copy.skip", defaultValue = "false")
+  boolean skip;
+
+  /**
    * The file/directory which has to be renamed.
    *
    * @since 1.0
@@ -123,6 +131,11 @@ public class RenameMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+      if (skip) {
+        logDebug("Skipping the copy-rename-maven-plugin");
+        return;
+      }
+
       logDebug("Executing the copy-rename-maven-plugin");
       if (fileSets != null && !fileSets.isEmpty()) {
         for (FileSet fileSet : fileSets) {

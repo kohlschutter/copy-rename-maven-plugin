@@ -31,6 +31,14 @@ import org.sonatype.plexus.build.incremental.BuildContext;
 @Mojo(name = "copy", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
 public class CopyMojo extends AbstractMojo {
   /**
+   * Skip execution.
+   *
+   * @since 2.0.0
+   */
+  @Parameter(property = "copy.skip", defaultValue = "false")
+  boolean skip;
+
+  /**
    * The file which has to be copied.
    *
    * @since 1.0
@@ -102,7 +110,13 @@ public class CopyMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+      if (skip) {
+        logDebug("Skipping the copy-rename-maven-plugin");
+        return;
+      }
+
       logDebug("Executing the copy-rename-maven-plugin");
+
       if (fileSets != null && !fileSets.isEmpty()) {
         for (FileSet fileSet : fileSets) {
           File srcFile = fileSet.getSourceFile();
