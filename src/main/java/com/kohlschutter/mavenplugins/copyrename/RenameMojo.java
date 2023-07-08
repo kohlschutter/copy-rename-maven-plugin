@@ -102,6 +102,14 @@ public class RenameMojo extends AbstractMojo {
   boolean ignoreExisting;
 
   /**
+   * Ignore renaming this file if it does not exist.
+   *
+   * @since 2.0.0
+   */
+  @Parameter(property = "copy.ignoreMissing", defaultValue = "false")
+  boolean ignoreMissing;
+
+  /**
    * Ignore errors if the source file/directory was not found during incremental build.
    *
    * @since 1.0
@@ -150,19 +158,21 @@ public class RenameMojo extends AbstractMojo {
           File srcFile = fileSet.getSourceFile();
           File destFile = fileSet.getDestinationFile();
           if (srcFile != null) {
-            copy(srcFile, destFile);
+            rename(srcFile, destFile);
           }
         }
       } else if (sourceFile != null) {
-        copy(sourceFile, destinationFile);
+        rename(sourceFile, destinationFile);
       } else {
         logInfo("No Files to process");
       }
     }
 
-    private void copy(File srcFile, File destFile) throws MojoExecutionException {
+    private void rename(File srcFile, File destFile) throws MojoExecutionException {
       if (!srcFile.exists()) {
-        if (ignoreFileNotFoundOnIncremental && buildContext.isIncremental()) {
+        if (ignoreMissing) {
+          logInfo("Skipping rename of ", srcFile.getAbsolutePath(), " (missing)");
+        } else if (ignoreFileNotFoundOnIncremental && buildContext.isIncremental()) {
           logWarn("sourceFile ", srcFile.getAbsolutePath(), " not found during incremental build");
         } else {
           logError("sourceFile ", srcFile.getAbsolutePath(), " does not exist");

@@ -81,6 +81,14 @@ public class CopyMojo extends AbstractMojo {
   boolean ignoreExisting;
 
   /**
+   * Ignore copying this file if it does not exist.
+   *
+   * @since 2.0.0
+   */
+  @Parameter(property = "copy.ignoreMissing", defaultValue = "false")
+  boolean ignoreMissing;
+
+  /**
    * Ignore File Not Found errors during incremental build.
    *
    * @since 1.0
@@ -143,7 +151,9 @@ public class CopyMojo extends AbstractMojo {
     @SuppressWarnings("PMD.CognitiveComplexity")
     private void copy(File srcFile, File destFile) throws MojoExecutionException {
       if (!srcFile.exists()) {
-        if (ignoreFileNotFoundOnIncremental && buildContext.isIncremental()) {
+        if (ignoreMissing) {
+          logInfo("Skipping copy of ", srcFile.getAbsolutePath(), " (missing)");
+        } else if (ignoreFileNotFoundOnIncremental && buildContext.isIncremental()) {
           logWarn("sourceFile ", srcFile.getAbsolutePath(), " not found during incremental build");
         } else {
           logError("sourceFile ", srcFile.getAbsolutePath(), " does not exist");
