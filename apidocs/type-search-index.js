@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.kohlschutter.mavenplugins.copyrename","l":"CopyMojo"},{"p":"com.kohlschutter.mavenplugins.copyrename","l":"FileSet"},{"p":"com.kohlschutter.mavenplugins.copyrename","l":"RenameMojo"}];updateSearchResults();

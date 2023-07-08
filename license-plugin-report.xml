@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<licensePluginReport goal="CHECK" timestamp="1688827300367">
+    <module artifactId="copy-rename-maven-plugin" groupId="com.kohlschutter.mavenplugins" version="2.0.0-SNAPSHOT"/>
+    <files>
+        <file path="src/main/java/com/kohlschutter/mavenplugins/copyrename/CopyMojo.java" result="PRESENT"/>
+        <file path="src/main/java/com/kohlschutter/mavenplugins/copyrename/FileSet.java" result="PRESENT"/>
+        <file path="src/main/java/com/kohlschutter/mavenplugins/copyrename/MojoExecutionContext.java" result="PRESENT"/>
+        <file path="src/main/java/com/kohlschutter/mavenplugins/copyrename/RenameMojo.java" result="PRESENT"/>
+    </files>
+</licensePluginReport>
