@@ -43,7 +43,7 @@ Usage
   <build>
     <plugins>
       <plugin>
-        <groupId>com.coderplus.maven.plugins</groupId>
+        <groupId>com.kohlschutter.mavenplugins</groupId>
         <artifactId>copy-rename-maven-plugin</artifactId>
         <version>${project.version}</version>
         <executions>
@@ -77,7 +77,7 @@ Usage
   <build>
     <plugins>
       <plugin>
-        <groupId>com.coderplus.maven.plugins</groupId>
+        <groupId>com.kohlschutter.mavenplugins</groupId>
         <artifactId>copy-rename-maven-plugin</artifactId>
         <version>${project.version}</version>
         <executions>
@@ -116,7 +116,7 @@ Usage
   <build>
     <plugins>
       <plugin>
-        <groupId>com.coderplus.maven.plugins</groupId>
+        <groupId>com.kohlschutter.mavenplugins</groupId>
         <artifactId>copy-rename-maven-plugin</artifactId>
         <version>${project.version}</version>
         <executions>
@@ -147,7 +147,7 @@ Usage
   <build>
     <plugins>
       <plugin>
-        <groupId>com.coderplus.maven.plugins</groupId>
+        <groupId>com.kohlschutter.mavenplugins</groupId>
         <artifactId>copy-rename-maven-plugin</artifactId>
         <version>${project.version}</version>
         <executions>
@@ -178,7 +178,7 @@ Usage
   <build>
     <plugins>
       <plugin>
-        <groupId>com.coderplus.maven.plugins</groupId>
+        <groupId>com.kohlschutter.mavenplugins</groupId>
         <artifactId>copy-rename-maven-plugin</artifactId>
         <version>${project.version}</version>
         <executions>
@@ -218,7 +218,7 @@ Usage
   <build>
     <plugins>
       <plugin>
-        <groupId>com.coderplus.maven.plugins</groupId>
+        <groupId>com.kohlschutter.mavenplugins</groupId>
         <artifactId>copy-rename-maven-plugin</artifactId>
         <version>${project.version}</version>
         <executions>

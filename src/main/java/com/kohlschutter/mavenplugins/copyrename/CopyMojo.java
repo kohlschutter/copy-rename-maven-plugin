@@ -25,7 +25,7 @@ import org.sonatype.plexus.build.incremental.BuildContext;
 /**
  * Copy files during build.
  *
- * @author <a href="aneesh@coderplus.com">Aneesh Joseph</a>
+ * @author Aneesh Joseph
  * @since 1.0
  */
 @Mojo(name = "copy", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)

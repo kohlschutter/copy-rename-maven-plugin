@@ -50,7 +50,7 @@ import org.sonatype.plexus.build.incremental.BuildContext;
 /**
  * Rename files or directories during build.
  *
- * @author <a href="aneesh@coderplus.com">Aneesh Joseph</a>
+ * @author Aneesh Joseph
  * @since 1.0
  */
 @Mojo(name = "rename", defaultPhase = LifecyclePhase.GENERATE_SOURCES, threadSafe = true)
